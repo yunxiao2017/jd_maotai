@@ -4,8 +4,8 @@ import requests
 import json
 
 from datetime import datetime
-from jd_logger import logger
-from config import global_config
+from maotai.jd_logger import logger
+from maotai.config import global_config
 
 
 class Timer(object):

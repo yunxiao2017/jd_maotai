@@ -7,12 +7,13 @@ import os
 import pickle
 
 from lxml import etree
-from jd_logger import logger
-from timer import Timer
-from config import global_config
+
+from error.exception import SKException
+from maotai.jd_logger import logger
+from maotai.timer import Timer
+from maotai.config import global_config
 from concurrent.futures import ProcessPoolExecutor
-from exception import SKException
-from util import (
+from helper.jd_helper import (
     parse_json,
     send_wechat,
     wait_some_time,
@@ -26,6 +27,7 @@ class SpiderSession:
     """
     Session相关操作
     """
+
     def __init__(self):
         self.cookies_dir_path = "./cookies/"
         self.user_agent = global_config.getRaw('config', 'DEFAULT_USER_AGENT')
@@ -101,6 +103,7 @@ class QrLogin:
     """
     扫码登录
     """
+
     def __init__(self, spider_session: SpiderSession):
         """
         初始化扫码登录
@@ -110,7 +113,7 @@ class QrLogin:
             3、校验票据
         :param spider_session:
         """
-        self.qrcode_img_file = 'qr_code.png'
+        self.qrcode_img_file = '../qr_code.png'
 
         self.spider_session = spider_session
         self.session = self.spider_session.get_session()
@@ -302,12 +305,14 @@ class JdSeckill(object):
         """
         用户登陆态校验装饰器。若用户未登陆，则调用扫码登陆
         """
+
         @functools.wraps(func)
         def new_func(self, *args, **kwargs):
             if not self.qrlogin.is_login:
                 logger.info("{0} 需登陆后调用，开始扫码登陆".format(func.__name__))
                 self.login_by_qrcode()
             return func(self, *args, **kwargs)
+
         return new_func
 
     @check_login
