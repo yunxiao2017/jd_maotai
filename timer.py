@@ -12,12 +12,34 @@ class Timer(object):
     def __init__(self, sleep_interval=0.5):
         # '2018-09-28 22:45:50.000'
         # buy_time = 2020-12-22 09:59:59.500
-        buy_time_everyday = global_config.getRaw('config', 'buy_time').__str__()
         localtime = time.localtime(time.time())
-        self.buy_time = datetime.strptime(
-            localtime.tm_year.__str__() + '-' + localtime.tm_mon.__str__() + '-' + localtime.tm_mday.__str__()
-            + ' ' + buy_time_everyday,
+        buy_time_everyday = global_config.getRaw('config', 'buy_time').__str__()
+        last_purchase_time_everyday = global_config.getRaw('config', 'last_purchase_time').__str__()
+
+        # 最后购买时间
+        last_purchase_time = datetime.strptime(
+            localtime.tm_year.__str__() + '-' + localtime.tm_mon.__str__() + '-' + localtime.tm_mday.__str__() + ' ' + last_purchase_time_everyday,
             "%Y-%m-%d %H:%M:%S.%f")
+
+        buy_time_config = datetime.strptime(
+            localtime.tm_year.__str__() + '-' + localtime.tm_mon.__str__() + '-' + localtime.tm_mday.__str__() + ' ' + buy_time_everyday,
+            "%Y-%m-%d %H:%M:%S.%f")
+
+        if time.mktime(localtime) < time.mktime(buy_time_config.timetuple()):
+            # 取正确的购买时间
+            self.buy_time = buy_time_config
+        elif time.mktime(localtime) > time.mktime(last_purchase_time.timetuple()):
+            # 取明天的时间 购买时间
+            self.buy_time = datetime.strptime(
+                localtime.tm_year.__str__() + '-' + localtime.tm_mon.__str__() + '-' + (
+                        localtime.tm_mday + 1).__str__() + ' ' + buy_time_everyday,
+                "%Y-%m-%d %H:%M:%S.%f")
+        else:
+            # 直接是购买时间
+            self.buy_time = buy_time_config
+
+        print("购买时间：{}".format(self.buy_time))
+
         self.buy_time_ms = int(time.mktime(self.buy_time.timetuple()) * 1000.0 + self.buy_time.microsecond / 1000)
         self.sleep_interval = sleep_interval
 
