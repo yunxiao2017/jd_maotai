@@ -5,6 +5,8 @@
 有需要炒股赚钱的加群吧
 <p align="center"> <img src="https://github.com/ChinaVolvocars/jd_maotai_seckill/blob/master/wx.png"></p>
 
+<p align="center"> <img src="https://github.com/ChinaVolvocars/jd_maotai_seckill/blob/master/wx2.png"></p>
+
 
 # Jd_Seckill
 请安装python 3.8 运行此项目，就不会出现各种问题了
