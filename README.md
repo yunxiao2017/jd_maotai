@@ -3,7 +3,7 @@
 自己赚钱不如带大家一起赚钱，独乐乐不如众乐乐
 
 有需要炒股赚钱的加群吧
-<p align="center"> <img src=""></p>
+<p align="center"> <img src="https://github.com/ChinaVolvocars/jd_maotai_seckill/blob/master/wx.png"></p>
 
 
 # Jd_Seckill
